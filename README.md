@@ -18,7 +18,7 @@ If you need Debian and Arcanist, please use [Greg's Dockerfile][1].
   $ docker build -t <YOUR_IMAGE_TAG> .
   ```
 
-2. try your ghc binary
+2. execution of your ghc binary
   ```
   $ docker run -it <YOUR_IMAGE_TAG>
   # cd ~/ghc_build/ghc-8.0
@@ -28,7 +28,7 @@ If you need Debian and Arcanist, please use [Greg's Dockerfile][1].
 
 ## And more
 
-  3. try validation
+  3. validation
   
     If you need trying validation, try following:
 
