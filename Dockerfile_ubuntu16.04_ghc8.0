@@ -1,0 +1,73 @@
+FROM ubuntu:16.04
+MAINTAINER Takenobu Tani <takenobu.hs@gmail.com>
+
+# GHC building for
+#   ubuntu 16.04LTS + ghc8.0
+
+
+# Preparation
+# -----------
+#   [1]: https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux
+#
+RUN export LANG=C.UTF-8; \
+    export LC_ALL=C.UTF-8; \
+    export LANGUAGE=C.UTF-8; \
+    apt-get update; \
+    apt-get -y install haskell-platform git autoconf automake \
+                       libtool make libgmp-dev ncurses-dev g++ python bzip2; \
+    cabal update; \
+    cabal install alex happy; \
+    apt-get -y install python-sphinx texlive-xetex \
+                       texlive-fonts-recommended fonts-lmodern; \
+    apt-get -y install linux-tools-generic xutils-dev
+
+
+# Getting the GHC sources
+# -----------------------
+#   [2]: https://ghc.haskell.org/trac/ghc/wiki/Building/GettingTheSources
+#
+RUN cd; \
+    mkdir ghc_build; \
+    cd ghc_build; \
+    git clone -b ghc-8.0 --recursive git://git.haskell.org/ghc.git ghc-8.0; \
+    cd ghc-8.0; \
+    git checkout ghc-8.0; \
+    git submodule update --init
+
+
+# Building
+# --------
+#   [3]: https://ghc.haskell.org/trac/ghc/wiki/Building/QuickStart
+#
+RUN export LANG=C.UTF-8; \
+    export LC_ALL=C.UTF-8; \
+    export LANGUAGE=C.UTF-8; \
+    cd; \
+    cd ghc_build/ghc-8.0; \
+    cd mk; \
+    sed -e 's/^#BuildFlavour = quick/BuildFlavour = quick/' \
+        build.mk.sample > build.mk; \
+    cd ..; \
+    ./boot; \
+    ./configure; \
+    make -j 8			# change here for your cpu number
+
+# -> generated your ./inplace/bin/ghc-stage2
+
+
+# Validation
+# ----------
+#   [4]: https://ghc.haskell.org/trac/ghc/wiki/TestingPatches
+#
+#RUN cd;\
+#    cd ghc_build/ghc-8.0; \
+#    ./validate --fast --testsuite-only   # fast validation
+##   ./validate                           # full validation
+
+
+# See also
+# --------
+#   [5]: https://ghc.haskell.org/trac/ghc/wiki/Newcomers
+#
+
+
