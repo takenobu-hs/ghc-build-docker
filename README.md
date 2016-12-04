@@ -26,7 +26,7 @@ If you need Debian and Arcanist, please use [Greg's Dockerfile][1].
   ```
 
 
-## And more
+## Furthermore
 
   3. validation
   
