@@ -4,7 +4,7 @@ Dockerfile for Haskell GHC building
 
 This is a Dockerfile for building ghc with following condition:
   * OS     : ubuntu 16.04LTS on docker
-  * source : ghc 8.0 branch
+  * source : ghc 8.0 or 8.2 branch
 
 If you need Debian and Arcanist, please use [Greg's Dockerfile][1].
 
@@ -15,7 +15,7 @@ Let's get familiar with ghc building and validating :)
 
 1. ghc building with Dockerfile
   ```
-  $ cp Dockerfile_ubuntu16.04_ghc8.0 Dockerfile
+  $ cp Dockerfile_ubuntu16.04_ghc8.X Dockerfile
   $ docker build -t <YOUR_IMAGE_TAG> .
   ```
   Please wait for a few hours...
@@ -23,7 +23,7 @@ Let's get familiar with ghc building and validating :)
 2. execution of your ghc binary
   ```
   $ docker run -it <YOUR_IMAGE_TAG>
-  # cd ~/ghc_build/ghc-8.0
+  # cd ~/ghc_build/ghc-8.X
   # ./inplace/bin/ghc-stage2 --interactive
   ```
 
@@ -33,14 +33,14 @@ Let's get familiar with ghc building and validating :)
 1. edit source files
   ```
   $ docker run -it <YOUR_IMAGE_TAG>
-  # cd ~/ghc_build/ghc-8.0
+  # cd ~/ghc_build/ghc-8.X
   # vi <YOUR_FILES>
   ```
 
 2. re-build
   ```
   $ docker run -it <YOUR_IMAGE_TAG>
-  # cd ~/ghc_build/ghc-8.0
+  # cd ~/ghc_build/ghc-8.X
   # ./boot
   # ./configure
   # make -j 8      
@@ -55,7 +55,7 @@ Let's get familiar with ghc building and validating :)
 
   ```
   $ docker run -it <YOUR_IMAGE_TAG>
-  # cd ~/ghc_build/ghc-8.0
+  # cd ~/ghc_build/ghc-8.X
   # THREADS=8 ./validate
    or
   # ./validate --fast --testsuite-only
@@ -63,7 +63,7 @@ Let's get familiar with ghc building and validating :)
 
   2. run a indivisual test if you need
   ```
-  # cd ~/ghc_build/ghc-8.0/testsuite/tests/<TEST_DIRECORY>
+  # cd ~/ghc_build/ghc-8.X/testsuite/tests/<TEST_DIRECORY>
   # make TEST=Txxxx
   ```
 
