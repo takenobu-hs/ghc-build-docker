@@ -3,7 +3,7 @@ Dockerfile for Haskell GHC building
 -----------------------------------
 
 This is a Dockerfile for building ghc with following condition:
-  * OS     : ubuntu 16.04LTS on docker
+  * OS     : ubuntu 16.04LTS or 18.04LTS on docker
   * source : ghc 8.0, 8.2, 8.4, 8.6 or master branch
 
 If you need Debian and Arcanist, please use [Greg's Dockerfile][1].
@@ -15,7 +15,7 @@ Let's get familiar with ghc building and validating :)
 
 1. ghc building with Dockerfile
   ```
-  $ cp Dockerfile_ubuntu16.04_ghc8.X Dockerfile
+  $ cp Dockerfile_ubuntu1X.04_ghc8.X Dockerfile
   $ docker build -t <YOUR_IMAGE_TAG> .
   ```
   Please wait for a few hours...
