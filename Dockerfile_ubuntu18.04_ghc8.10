@@ -1,0 +1,80 @@
+FROM ubuntu:18.04
+MAINTAINER Takenobu Tani <takenobu.hs@gmail.com>
+
+# GHC building for
+#   ubuntu18.04LTS + ghc8.10
+
+ENV LANG     C.UTF-8
+ENV LC_ALL   C.UTF-8
+ENV LANGUAGE C.UTF-8
+
+# Preparation
+# -----------
+#   [1]: https://gitlab.haskell.org/ghc/ghc/-/wikis/building/preparation/linux
+#
+RUN apt-get update; \
+    apt-get -y install build-essential git autoconf python3 \
+                       libgmp-dev libncurses-dev
+
+RUN apt-get install -y software-properties-common; \
+    add-apt-repository -y ppa:hvr/ghc; \
+    apt-get update; \
+    apt-get install -y cabal-install-3.0; \
+    apt-get install -y ghc-8.8.3
+ENV PATH $PATH:/opt/ghc/bin
+
+RUN cabal update; \
+    cabal install alex happy
+ENV PATH $PATH:/root/.cabal/bin
+
+## -- For building the documentation (User's Guide)
+# RUN apt-get -y install python-sphinx texlive-xetex texlive-fonts-recommended \
+#                        fonts-lmodern texlive-latex-recommended \
+#                        texlive-latex-extra; \
+#     apt-get -y install linux-tools-generic xutils-dev
+
+
+# Getting the GHC sources
+# -----------------------
+#   [2]: https://gitlab.haskell.org/ghc/ghc/-/wikis/building/getting-the-sources
+#
+RUN cd; \
+    mkdir ghc_build; \
+    cd ghc_build; \
+    git clone -b ghc-8.10 --recurse-submodules https://gitlab.haskell.org/ghc/ghc.git ghc-8.10; \
+    cd ghc-8.10; \
+    git checkout ghc-8.10; \
+    git submodule update --init
+
+
+# Building
+# --------
+#   [3]: https://gitlab.haskell.org/ghc/ghc/-/wikis/building/quick-start
+#
+RUN cd; \
+    cd ghc_build/ghc-8.10; \
+    cd mk; \
+    sed -e 's/^#BuildFlavour = quick$/BuildFlavour = quick/' \
+        build.mk.sample > build.mk; \
+    cd ..; \
+    ./boot; \
+    ./configure; \
+    make -j 9			# change here for your cpu number
+
+# -> generated your ./inplace/bin/ghc-stage2
+
+
+# Validation
+# ----------
+#   [4]: https://gitlab.haskell.org/ghc/ghc/-/wikis/testing-patches
+#
+#RUN cd;\
+#    cd ghc_build/ghc-8.10; \
+#    THREADS=9 ./validate                 # full validation
+##   ./validate --fast --testsuite-only   # fast validation
+
+
+# See also
+# --------
+#   [5]: https://gitlab.haskell.org/ghc/ghc/-/wikis/contributing#newcomers-to-ghc
+#
