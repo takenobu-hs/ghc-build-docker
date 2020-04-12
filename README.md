@@ -4,7 +4,7 @@ Dockerfile for Haskell GHC building
 
 This is a Dockerfile for building ghc with following condition:
   * OS     : ubuntu 16.04LTS or 18.04LTS on docker
-  * source : ghc 8.0, 8.2, 8.4, 8.6 or master branch
+  * source : ghc 8.0, 8.2, 8.4, 8.6, 8.8, 8.10 or master branch
 
 If you need Debian and Arcanist, please use [Greg's Dockerfile][1].
 
@@ -70,11 +70,11 @@ Let's get familiar with ghc building and validating :)
 
 ## References
 
- * https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux
- * https://ghc.haskell.org/trac/ghc/wiki/Building/GettingTheSources
- * https://ghc.haskell.org/trac/ghc/wiki/Building/QuickStart
- * https://ghc.haskell.org/trac/ghc/wiki/TestingPatches
- * https://ghc.haskell.org/trac/ghc/wiki/Building/RunningTests/Running
- * https://ghc.haskell.org/trac/ghc/wiki/Newcomers
+ * https://gitlab.haskell.org/ghc/ghc/-/wikis/building/preparation/linux
+ * https://gitlab.haskell.org/ghc/ghc/-/wikis/building/getting-the-sources
+ * https://gitlab.haskell.org/ghc/ghc/-/wikis/building/quick-start
+ * https://gitlab.haskell.org/ghc/ghc/-/wikis/testing-patches
+ * https://gitlab.haskell.org/ghc/ghc/-/wikis/building/running-tests/running
+ * https://gitlab.haskell.org/ghc/ghc/-/wikis/contributing#newcomers-to-ghc
 
 [1]: https://github.com/gregwebs/ghc-docker-dev
